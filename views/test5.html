@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+
+<div id="example5"></div>
+
+<script type="text/babel">
+
+    class Row extends React.Component {
+        render () {
+
+            const {item, style} = this.props;
+            console.log("Row is rendered"+ item.code);
+            return (
+                <tr style={style}>
+                    <td>{item.code}</td><td>{item.name}</td>
+                </tr>
+            )
+        }
+    }
+
+    class Table extends React.Component {
+        render() {
+            console.log("Table is rendered");
+            const {list} = this.props;
+            const itemStyle = {
+                color: 'red'
+            }
+            return (list.map(item => <Row key={item.code} item={item} style={itemStyle} />)
+            )
+        }
+    }
+
+
+    let i =100;
+    class App extends React.Component {
+        state = {
+            list: [{code:"001",name:"name1"},{code:"002",name:"name2"},{code:"003",name:"name3"}]
+        }
+
+        handleClick = () => {
+            this.setState({
+                list: [...this.state.list, {code:++i,name:"name"+i}] // 增加一个元素
+            })
+        }
+
+        render() {
+            const {list} = this.state;
+            return (
+                <div>
+                    <button onClick={this.handleClick}>change state!</button>
+                    <table border="1">
+                        <thead >
+                        <tr>
+                            <th>序号</th> <th>名称</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <Table list={list}/>
+                        </tbody>
+                    </table>
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <App />,
+        document.getElementById('example5')
+    );
+
+</script>
+
+</body>
+</html>

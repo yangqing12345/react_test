@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+
+<div id="example6"></div>
+
+
+<script type="text/babel">
+
+
+    class Row extends React.PureComponent {
+        render () {
+
+            const {item, style} = this.props;
+            console.log("Row is rendered"+ item.code);
+            return (
+                <tr style={style} id={item.code}>
+                    <td>{item.code}</td> <td>{item.name}</td>
+                </tr>
+            )
+        }
+    }
+
+    class Table extends React.PureComponent {
+        render() {
+            console.log("Table is rendered");
+            const {list} = this.props;
+            const itemStyle = {
+                color: 'red'
+            }
+            return (
+                <table border="1">
+                    <thead >
+                    <tr>
+                        <th>序号</th> <th>名称</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {list.map(item => <Row key={item.code} item={item} style={itemStyle} />)}
+                    </tbody>
+                </table>
+
+            )
+
+            //return list.map(item => <Row key={item.code} item={item} style={itemStyle} />)
+
+        }
+    }
+
+
+    let i =100;
+
+    class App extends React.Component {
+        state = {
+            list: [{code:"001",name:"name1"},{code:"002",name:"name2"},{code:"003",name:"name3"}]
+        }
+
+        handleClick = () => {
+
+            this.setState({
+                list: [...this.state.list, {code:++i,name:"name"+i}]
+            });
+            //debugger;
+        }
+
+        render() {
+            const {list} = this.state;
+            return (
+                <div>
+                    <button onClick={this.handleClick}>change state!</button>
+
+
+                    <Table list={list}/>
+
+
+                </div>
+            );
+        }
+    }
+
+
+    ReactDOM.render(
+        <App />,
+        document.getElementById('example6')
+    );
+
+
+</script>
+
+</body>
+</html>
